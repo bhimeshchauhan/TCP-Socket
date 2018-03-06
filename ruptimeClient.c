@@ -42,7 +42,7 @@ void c_connect(){
     addr_server.sin_port = htons(t_portnum);
     
     // Connect with server
-    if (connect(t_socket, &addr_server, sizeof(addr_server)) < 0){
+    if (connect(t_socket, (struct sockaddr *)&addr_server, sizeof(addr_server)) < 0){
         error("ERROR connecting\n");
     }
 
@@ -66,8 +66,8 @@ void c_close() {
 }
     
 int main(int argc, char **argv){
-    if (argc != 3){
-        fprintf(stderr,"usage: %s <hostname> <port>\n", argv[0]);
+    if (argc != 5){
+        fprintf(stderr,"usage: %s <hostname> <port> <hostname2> <port2>\n", argv[0]);
         exit(0);
     }
     
@@ -92,7 +92,7 @@ int main(int argc, char **argv){
     if (t_count < 0){
       error("ERROR reading from socket");
     }
-    printf("Echo from server: %s", buffer);
+    printf("Echo from server: %s\n", buffer);
     
     // close socket
     c_close();

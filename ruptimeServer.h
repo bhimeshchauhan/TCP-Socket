@@ -11,6 +11,7 @@
 #define BUFFER 1024
 
 char buffer[BUFFER];
+char uptime[100];
 char *host_addr;
 int flag;
 int s_num;

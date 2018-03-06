@@ -42,7 +42,6 @@ void s_listen(){
     }
 }
 
-
 void s_read(){
     s_client_addrlen = sizeof(c_address);
     while(1){
@@ -68,13 +67,22 @@ void s_read(){
         if (s_num < 0){
             error("ERROR reading from socket");
         }
-        printf("server received %d bytes: %s", s_num, buffer);
+        printf("server received %d bytes: %s\n", s_num, buffer);
+        
+        // Write ack
+        s_write();
+        // Close socket
+        s_close();
     }
 }
 
 void s_write(){
-
-    s_num = write(s_csocket, buffer, strlen(buffer));
+    
+    FILE* file = popen("uptime", "r");
+    fgets(uptime, 100, file);
+    pclose(file);
+    printf("buffer is :%s\n", uptime);
+    s_num = write(s_csocket, uptime, strlen(uptime));
     if (s_num < 0){
         error("ERROR writing to socket");
     }
@@ -104,7 +112,5 @@ int main(int argc, char **argv){
     // Read data
     s_read();
     
-    // Write ack
-    s_write();
     return 0;
 }
